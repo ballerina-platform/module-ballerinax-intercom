@@ -60,7 +60,7 @@ public isolated client class Client {
     # + id - The unique identifier for the article which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function delete articles/[int id](DeleteArticleHeaders headers = {}) returns deleted_article_object|error {
+    resource isolated function delete articles/[int id](DeleteArticleHeaders headers = {}) returns DeletedArticleObject|error {
         string resourcePath = string `/articles/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
@@ -71,7 +71,7 @@ public isolated client class Client {
     # + id - The unique identifier for the company which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function delete companies/[string id](DeleteCompanyHeaders headers = {}) returns deleted_company_object|error {
+    resource isolated function delete companies/[string id](DeleteCompanyHeaders headers = {}) returns DeletedCompanyObject|error {
         string resourcePath = string `/companies/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
@@ -79,36 +79,36 @@ public isolated client class Client {
 
     # Detach a contact from a company
     #
-    # + contact_id - The unique identifier for the contact which is given by Intercom
+    # + contactId - The unique identifier for the contact which is given by Intercom
     # + id - The unique identifier for the company which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function delete contacts/[string contact_id]/companies/[string id](DetachContactFromACompanyHeaders headers = {}) returns company|error {
-        string resourcePath = string `/contacts/${getEncodedUri(contact_id)}/companies/${getEncodedUri(id)}`;
+    resource isolated function delete contacts/[string contactId]/companies/[string id](DetachContactFromACompanyHeaders headers = {}) returns Company|error {
+        string resourcePath = string `/contacts/${getEncodedUri(contactId)}/companies/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
     # Remove subscription from a contact
     #
-    # + contact_id - The unique identifier for the contact which is given by Intercom
+    # + contactId - The unique identifier for the contact which is given by Intercom
     # + id - The unique identifier for the subscription type which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function delete contacts/[string contact_id]/subscriptions/[string id](DetachSubscriptionTypeToContactHeaders headers = {}) returns subscription_type|error {
-        string resourcePath = string `/contacts/${getEncodedUri(contact_id)}/subscriptions/${getEncodedUri(id)}`;
+    resource isolated function delete contacts/[string contactId]/subscriptions/[string id](DetachSubscriptionTypeToContactHeaders headers = {}) returns SubscriptionType|error {
+        string resourcePath = string `/contacts/${getEncodedUri(contactId)}/subscriptions/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
     # Remove tag from a contact
     #
-    # + contact_id - The unique identifier for the contact which is given by Intercom
+    # + contactId - The unique identifier for the contact which is given by Intercom
     # + id - The unique identifier for the tag which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function delete contacts/[string contact_id]/tags/[string id](DetachTagFromContactHeaders headers = {}) returns tag|error {
-        string resourcePath = string `/contacts/${getEncodedUri(contact_id)}/tags/${getEncodedUri(id)}`;
+    resource isolated function delete contacts/[string contactId]/tags/[string id](DetachTagFromContactHeaders headers = {}) returns Tag|error {
+        string resourcePath = string `/contacts/${getEncodedUri(contactId)}/tags/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
@@ -118,7 +118,7 @@ public isolated client class Client {
     # + id - id
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function delete contacts/[string id](DeleteContactHeaders headers = {}) returns contact_deleted|error {
+    resource isolated function delete contacts/[string id](DeleteContactHeaders headers = {}) returns ContactDeleted|error {
         string resourcePath = string `/contacts/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
@@ -126,12 +126,12 @@ public isolated client class Client {
 
     # Detach a contact from a group conversation
     #
-    # + conversation_id - The identifier for the conversation as given by Intercom.
-    # + contact_id - The identifier for the contact as given by Intercom.
+    # + conversationId - The identifier for the conversation as given by Intercom.
+    # + contactId - The identifier for the contact as given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - Detach a contact from a group conversation 
-    resource isolated function delete conversations/[string conversation_id]/customers/[string contact_id](detach_contact_from_conversation_request payload, DetachContactFromConversationHeaders headers = {}) returns conversation|error {
-        string resourcePath = string `/conversations/${getEncodedUri(conversation_id)}/customers/${getEncodedUri(contact_id)}`;
+    resource isolated function delete conversations/[string conversationId]/customers/[string contactId](DetachContactFromConversationRequest payload, DetachContactFromConversationHeaders headers = {}) returns Conversation|error {
+        string resourcePath = string `/conversations/${getEncodedUri(conversationId)}/customers/${getEncodedUri(contactId)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
         json jsonBody = payload.toJson();
@@ -141,12 +141,12 @@ public isolated client class Client {
 
     # Remove tag from a conversation
     #
-    # + conversation_id - conversation_id
+    # + conversationId - conversation_id
     # + id - id
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function delete conversations/[string conversation_id]/tags/[string id](tags_id_body payload, DetachTagFromConversationHeaders headers = {}) returns tag|error {
-        string resourcePath = string `/conversations/${getEncodedUri(conversation_id)}/tags/${getEncodedUri(id)}`;
+    resource isolated function delete conversations/[string conversationId]/tags/[string id](TagsIdBody payload, DetachTagFromConversationHeaders headers = {}) returns Tag|error {
+        string resourcePath = string `/conversations/${getEncodedUri(conversationId)}/tags/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
         json jsonBody = payload.toJson();
@@ -159,7 +159,7 @@ public isolated client class Client {
     # + id - The unique identifier for the collection which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function delete help_center/collections/[int id](DeleteCollectionHeaders headers = {}) returns deleted_collection_object|error {
+    resource isolated function delete help_center/collections/[int id](DeleteCollectionHeaders headers = {}) returns DeletedCollectionObject|error {
         string resourcePath = string `/help_center/collections/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
@@ -170,7 +170,7 @@ public isolated client class Client {
     # + id - The unique identifier for the news item which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function delete news/news_items/[int id](DeleteNewsItemHeaders headers = {}) returns deleted_object|error {
+    resource isolated function delete news/news_items/[int id](DeleteNewsItemHeaders headers = {}) returns DeletedObject|error {
         string resourcePath = string `/news/news_items/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
@@ -189,12 +189,12 @@ public isolated client class Client {
 
     # Remove tag from a ticket
     #
-    # + ticket_id - ticket_id
+    # + ticketId - ticket_id
     # + id - The unique identifier for the tag which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function delete tickets/[string ticket_id]/tags/[string id](tags_id_body_1 payload, DetachTagFromTicketHeaders headers = {}) returns tag|error {
-        string resourcePath = string `/tickets/${getEncodedUri(ticket_id)}/tags/${getEncodedUri(id)}`;
+    resource isolated function delete tickets/[string ticketId]/tags/[string id](TagsIdBody1 payload, DetachTagFromTicketHeaders headers = {}) returns Tag|error {
+        string resourcePath = string `/tickets/${getEncodedUri(ticketId)}/tags/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
         json jsonBody = payload.toJson();
@@ -206,7 +206,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - Successful response 
-    resource isolated function get admins(ListAdminsHeaders headers = {}) returns admin_list|error {
+    resource isolated function get admins(ListAdminsHeaders headers = {}) returns AdminList|error {
         string resourcePath = string `/admins`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -217,7 +217,7 @@ public isolated client class Client {
     # + id - The unique identifier of a given admin
     # + headers - Headers to be sent with the request 
     # + return - Admin found 
-    resource isolated function get admins/[int id](RetrieveAdminHeaders headers = {}) returns admin|error {
+    resource isolated function get admins/[int id](RetrieveAdminHeaders headers = {}) returns Admin|error {
         string resourcePath = string `/admins/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -228,7 +228,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - Successful response 
-    resource isolated function get admins/activity_logs(ListActivityLogsHeaders headers = {}, *ListActivityLogsQueries queries) returns activity_log_list|error {
+    resource isolated function get admins/activity_logs(ListActivityLogsHeaders headers = {}, *ListActivityLogsQueries queries) returns ActivityLogList|error {
         string resourcePath = string `/admins/activity_logs`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
@@ -239,7 +239,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get articles(ListArticlesHeaders headers = {}) returns article_list|error {
+    resource isolated function get articles(ListArticlesHeaders headers = {}) returns ArticleList|error {
         string resourcePath = string `/articles`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -250,7 +250,7 @@ public isolated client class Client {
     # + id - The unique identifier for the article which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - Article found 
-    resource isolated function get articles/[int id](RetrieveArticleHeaders headers = {}) returns article|error {
+    resource isolated function get articles/[int id](RetrieveArticleHeaders headers = {}) returns Article|error {
         string resourcePath = string `/articles/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -261,7 +261,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - Search successful 
-    resource isolated function get articles/search(SearchArticlesHeaders headers = {}, *SearchArticlesQueries queries) returns article_search_response|error {
+    resource isolated function get articles/search(SearchArticlesHeaders headers = {}, *SearchArticlesQueries queries) returns ArticleSearchResponse|error {
         string resourcePath = string `/articles/search`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
@@ -273,7 +273,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - Successful 
-    resource isolated function get companies(RetrieveCompanyHeaders headers = {}, *RetrieveCompanyQueries queries) returns company_list|error {
+    resource isolated function get companies(RetrieveCompanyHeaders headers = {}, *RetrieveCompanyQueries queries) returns CompanyList|error {
         string resourcePath = string `/companies`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
@@ -285,7 +285,7 @@ public isolated client class Client {
     # + id - The unique identifier for the company which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function get companies/[string id](RetrieveACompanyByIdHeaders headers = {}) returns company|error {
+    resource isolated function get companies/[string id](RetrieveACompanyByIdHeaders headers = {}) returns Company|error {
         string resourcePath = string `/companies/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -296,7 +296,7 @@ public isolated client class Client {
     # + id - The unique identifier for the company which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function get companies/[string id]/contacts(ListAttachedContactsHeaders headers = {}) returns company_attached_contacts|error {
+    resource isolated function get companies/[string id]/contacts(ListAttachedContactsHeaders headers = {}) returns CompanyAttachedContacts|error {
         string resourcePath = string `/companies/${getEncodedUri(id)}/contacts`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -307,7 +307,7 @@ public isolated client class Client {
     # + id - The unique identifier for the company which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function get companies/[string id]/segments(ListAttachedSegmentsForCompaniesHeaders headers = {}) returns company_attached_segments|error {
+    resource isolated function get companies/[string id]/segments(ListAttachedSegmentsForCompaniesHeaders headers = {}) returns CompanyAttachedSegments|error {
         string resourcePath = string `/companies/${getEncodedUri(id)}/segments`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -318,7 +318,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - Successful 
-    resource isolated function get companies/scroll(ScrollOverAllCompaniesHeaders headers = {}, *ScrollOverAllCompaniesQueries queries) returns company_scroll|error {
+    resource isolated function get companies/scroll(ScrollOverAllCompaniesHeaders headers = {}, *ScrollOverAllCompaniesQueries queries) returns CompanyScroll|error {
         string resourcePath = string `/companies/scroll`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
@@ -329,7 +329,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get contacts(ListContactsHeaders headers = {}) returns contact_list|error {
+    resource isolated function get contacts(ListContactsHeaders headers = {}) returns ContactList|error {
         string resourcePath = string `/contacts`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -340,7 +340,7 @@ public isolated client class Client {
     # + id - The unique identifier of a contact.
     # + headers - Headers to be sent with the request 
     # + return - Successful response 
-    resource isolated function get contacts/[int id]/notes(ListNotesHeaders headers = {}) returns note_list|error {
+    resource isolated function get contacts/[int id]/notes(ListNotesHeaders headers = {}) returns NoteList|error {
         string resourcePath = string `/contacts/${getEncodedUri(id)}/notes`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -348,33 +348,33 @@ public isolated client class Client {
 
     # List attached segments for contact
     #
-    # + contact_id - The unique identifier for the contact which is given by Intercom
+    # + contactId - The unique identifier for the contact which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get contacts/[string contact_id]/segments(ListSegmentsForAContactHeaders headers = {}) returns contact_segments|error {
-        string resourcePath = string `/contacts/${getEncodedUri(contact_id)}/segments`;
+    resource isolated function get contacts/[string contactId]/segments(ListSegmentsForAContactHeaders headers = {}) returns ContactSegments|error {
+        string resourcePath = string `/contacts/${getEncodedUri(contactId)}/segments`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # List subscriptions for a contact
     #
-    # + contact_id - The unique identifier for the contact which is given by Intercom
+    # + contactId - The unique identifier for the contact which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function get contacts/[string contact_id]/subscriptions(ListSubscriptionsForAContactHeaders headers = {}) returns subscription_type_list|error {
-        string resourcePath = string `/contacts/${getEncodedUri(contact_id)}/subscriptions`;
+    resource isolated function get contacts/[string contactId]/subscriptions(ListSubscriptionsForAContactHeaders headers = {}) returns SubscriptionTypeList|error {
+        string resourcePath = string `/contacts/${getEncodedUri(contactId)}/subscriptions`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
     # List tags attached to a contact
     #
-    # + contact_id - The unique identifier for the contact which is given by Intercom
+    # + contactId - The unique identifier for the contact which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get contacts/[string contact_id]/tags(ListTagsForAContactHeaders headers = {}) returns tag_list|error {
-        string resourcePath = string `/contacts/${getEncodedUri(contact_id)}/tags`;
+    resource isolated function get contacts/[string contactId]/tags(ListTagsForAContactHeaders headers = {}) returns TagList|error {
+        string resourcePath = string `/contacts/${getEncodedUri(contactId)}/tags`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
     }
@@ -384,7 +384,7 @@ public isolated client class Client {
     # + id - id
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get contacts/[string id](ShowContactHeaders headers = {}) returns contact|error {
+    resource isolated function get contacts/[string id](ShowContactHeaders headers = {}) returns Contact|error {
         string resourcePath = string `/contacts/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -395,7 +395,7 @@ public isolated client class Client {
     # + id - The unique identifier for the contact which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get contacts/[string id]/companies(ListCompaniesForAContactHeaders headers = {}) returns contact_attached_companies|error {
+    resource isolated function get contacts/[string id]/companies(ListCompaniesForAContactHeaders headers = {}) returns ContactAttachedCompanies|error {
         string resourcePath = string `/contacts/${getEncodedUri(id)}/companies`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -406,7 +406,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful 
-    resource isolated function get conversations(ListConversationsHeaders headers = {}, *ListConversationsQueries queries) returns paginated_response|error {
+    resource isolated function get conversations(ListConversationsHeaders headers = {}, *ListConversationsQueries queries) returns PaginatedResponse|error {
         string resourcePath = string `/conversations`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
@@ -419,7 +419,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - conversation found 
-    resource isolated function get conversations/[int id](RetrieveConversationHeaders headers = {}, *RetrieveConversationQueries queries) returns conversation|error {
+    resource isolated function get conversations/[int id](RetrieveConversationHeaders headers = {}, *RetrieveConversationQueries queries) returns Conversation|error {
         string resourcePath = string `/conversations/${getEncodedUri(id)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
@@ -431,7 +431,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - Successful response 
-    resource isolated function get data_attributes(LisDataAttributesHeaders headers = {}, *LisDataAttributesQueries queries) returns data_attribute_list|error {
+    resource isolated function get data_attributes(LisDataAttributesHeaders headers = {}, *LisDataAttributesQueries queries) returns DataAttributeList|error {
         string resourcePath = string `/data_attributes`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
@@ -440,11 +440,11 @@ public isolated client class Client {
 
     # Download content data export
     #
-    # + job_identifier - job_identifier
+    # + jobIdentifier - job_identifier
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get download/content/data/[string job_identifier](DownloadDataExportHeaders headers = {}) returns error? {
-        string resourcePath = string `/download/content/data/${getEncodedUri(job_identifier)}`;
+    resource isolated function get download/content/data/[string jobIdentifier](DownloadDataExportHeaders headers = {}) returns error? {
+        string resourcePath = string `/download/content/data/${getEncodedUri(jobIdentifier)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
     }
@@ -454,7 +454,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - Successful response 
-    resource isolated function get events(LisDataEventsHeaders headers = {}, *LisDataEventsQueries queries) returns data_event_summary|error {
+    resource isolated function get events(LisDataEventsHeaders headers = {}, *LisDataEventsQueries queries) returns DataEventSummary|error {
         string resourcePath = string `/events`;
         map<Encoding> queryParamEncoding = {"filter": {style: FORM, explode: true}};
         resourcePath = resourcePath + check getPathForQueryParam(queries, queryParamEncoding);
@@ -464,11 +464,11 @@ public isolated client class Client {
 
     # Show content data export
     #
-    # + job_identifier - job_identifier
+    # + jobIdentifier - job_identifier
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get export/content/data/[string job_identifier](GetDataExportHeaders headers = {}) returns data_export|error {
-        string resourcePath = string `/export/content/data/${getEncodedUri(job_identifier)}`;
+    resource isolated function get export/content/data/[string jobIdentifier](GetDataExportHeaders headers = {}) returns DataExport|error {
+        string resourcePath = string `/export/content/data/${getEncodedUri(jobIdentifier)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
     }
@@ -477,7 +477,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function get help_center/collections(ListAllCollectionsHeaders headers = {}) returns collection_list|error {
+    resource isolated function get help_center/collections(ListAllCollectionsHeaders headers = {}) returns CollectionList|error {
         string resourcePath = string `/help_center/collections`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -488,7 +488,7 @@ public isolated client class Client {
     # + id - The unique identifier for the collection which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - Collection found 
-    resource isolated function get help_center/collections/[int id](RetrieveCollectionHeaders headers = {}) returns collection|error {
+    resource isolated function get help_center/collections/[int id](RetrieveCollectionHeaders headers = {}) returns Collection|error {
         string resourcePath = string `/help_center/collections/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -498,7 +498,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - Help Centers found 
-    resource isolated function get help_center/help_centers(ListHelpCentersHeaders headers = {}) returns help_center_list|error {
+    resource isolated function get help_center/help_centers(ListHelpCentersHeaders headers = {}) returns HelpCenterList|error {
         string resourcePath = string `/help_center/help_centers`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -509,7 +509,7 @@ public isolated client class Client {
     # + id - The unique identifier for the collection which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - Collection found 
-    resource isolated function get help_center/help_centers/[int id](RetrieveHelpCenterHeaders headers = {}) returns help_center|error {
+    resource isolated function get help_center/help_centers/[int id](RetrieveHelpCenterHeaders headers = {}) returns HelpCenter|error {
         string resourcePath = string `/help_center/help_centers/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -519,7 +519,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - Successful response 
-    resource isolated function get me(IdentifyAdminHeaders headers = {}) returns admin_with_app|error {
+    resource isolated function get me(IdentifyAdminHeaders headers = {}) returns AdminWithApp|error {
         string resourcePath = string `/me`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -529,7 +529,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get news/news_items(ListNewsItemsHeaders headers = {}) returns paginated_response|error {
+    resource isolated function get news/news_items(ListNewsItemsHeaders headers = {}) returns PaginatedResponse|error {
         string resourcePath = string `/news/news_items`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -540,7 +540,7 @@ public isolated client class Client {
     # + id - The unique identifier for the news item which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get news/news_items/[int id](RetrieveNewsItemHeaders headers = {}) returns news_item|error {
+    resource isolated function get news/news_items/[int id](RetrieveNewsItemHeaders headers = {}) returns NewsItem|error {
         string resourcePath = string `/news/news_items/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -550,7 +550,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get news/newsfeeds(ListNewsfeedsHeaders headers = {}) returns paginated_response|error {
+    resource isolated function get news/newsfeeds(ListNewsfeedsHeaders headers = {}) returns PaginatedResponse|error {
         string resourcePath = string `/news/newsfeeds`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -561,7 +561,7 @@ public isolated client class Client {
     # + id - The unique identifier for the news feed item which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get news/newsfeeds/[string id](RetrieveNewsfeedHeaders headers = {}) returns newsfeed|error {
+    resource isolated function get news/newsfeeds/[string id](RetrieveNewsfeedHeaders headers = {}) returns Newsfeed|error {
         string resourcePath = string `/news/newsfeeds/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -572,7 +572,7 @@ public isolated client class Client {
     # + id - The unique identifier for the news feed item which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get news/newsfeeds/[string id]/items(ListLiveNewsfeedItemsHeaders headers = {}) returns paginated_response|error {
+    resource isolated function get news/newsfeeds/[string id]/items(ListLiveNewsfeedItemsHeaders headers = {}) returns PaginatedResponse|error {
         string resourcePath = string `/news/newsfeeds/${getEncodedUri(id)}/items`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -583,7 +583,7 @@ public isolated client class Client {
     # + id - The unique identifier of a given note
     # + headers - Headers to be sent with the request 
     # + return - Note found 
-    resource isolated function get notes/[int id](RetrieveNoteHeaders headers = {}) returns note|error {
+    resource isolated function get notes/[int id](RetrieveNoteHeaders headers = {}) returns Note|error {
         string resourcePath = string `/notes/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -594,7 +594,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - Successful response 
-    resource isolated function get segments(ListSegmentsHeaders headers = {}, *ListSegmentsQueries queries) returns segment_list|error {
+    resource isolated function get segments(ListSegmentsHeaders headers = {}, *ListSegmentsQueries queries) returns SegmentList|error {
         string resourcePath = string `/segments`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
@@ -606,7 +606,7 @@ public isolated client class Client {
     # + id - The unique identified of a given segment.
     # + headers - Headers to be sent with the request 
     # + return - Successful response 
-    resource isolated function get segments/[string id](RetrieveSegmentHeaders headers = {}) returns segment|error {
+    resource isolated function get segments/[string id](RetrieveSegmentHeaders headers = {}) returns Segment|error {
         string resourcePath = string `/segments/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -616,7 +616,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function get subscription_types(ListSubscriptionTypesHeaders headers = {}) returns subscription_type_list|error {
+    resource isolated function get subscription_types(ListSubscriptionTypesHeaders headers = {}) returns SubscriptionTypeList|error {
         string resourcePath = string `/subscription_types`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -626,7 +626,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get tags(ListTagsHeaders headers = {}) returns tag_list|error {
+    resource isolated function get tags(ListTagsHeaders headers = {}) returns TagList|error {
         string resourcePath = string `/tags`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -637,7 +637,7 @@ public isolated client class Client {
     # + id - The unique identifier of a given tag
     # + headers - Headers to be sent with the request 
     # + return - Tag found 
-    resource isolated function get tags/[string id](FindTagHeaders headers = {}) returns tag|error {
+    resource isolated function get tags/[string id](FindTagHeaders headers = {}) returns Tag|error {
         string resourcePath = string `/tags/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -647,7 +647,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get teams(ListTeamsHeaders headers = {}) returns team_list|error {
+    resource isolated function get teams(ListTeamsHeaders headers = {}) returns TeamList|error {
         string resourcePath = string `/teams`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -658,7 +658,7 @@ public isolated client class Client {
     # + id - The unique identifier of a given team.
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get teams/[string id](RetrieveTeamHeaders headers = {}) returns team|error {
+    resource isolated function get teams/[string id](RetrieveTeamHeaders headers = {}) returns Team|error {
         string resourcePath = string `/teams/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -668,7 +668,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function get ticket_types(ListTicketTypesHeaders headers = {}) returns ticket_type_list|error {
+    resource isolated function get ticket_types(ListTicketTypesHeaders headers = {}) returns TicketTypeList|error {
         string resourcePath = string `/ticket_types`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -679,7 +679,7 @@ public isolated client class Client {
     # + id - The unique identifier for the ticket type which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - Ticket type found 
-    resource isolated function get ticket_types/[string id](GetTicketTypeHeaders headers = {}) returns ticket_type|error {
+    resource isolated function get ticket_types/[string id](GetTicketTypeHeaders headers = {}) returns TicketType|error {
         string resourcePath = string `/ticket_types/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -690,7 +690,7 @@ public isolated client class Client {
     # + id - The unique identifier for the ticket which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - Ticket found 
-    resource isolated function get tickets/[string id](GetTicketHeaders headers = {}) returns ticket|error {
+    resource isolated function get tickets/[string id](GetTicketHeaders headers = {}) returns Ticket|error {
         string resourcePath = string `/tickets/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         return self.clientEp->get(resourcePath, httpHeaders);
@@ -701,7 +701,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful 
-    resource isolated function get visitors(RetrieveVisitorWithUserIdHeaders headers = {}, *RetrieveVisitorWithUserIdQueries queries) returns visitor|error {
+    resource isolated function get visitors(RetrieveVisitorWithUserIdHeaders headers = {}, *RetrieveVisitorWithUserIdQueries queries) returns Visitor|error {
         string resourcePath = string `/visitors`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
@@ -712,7 +712,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - article created 
-    resource isolated function post articles(create_article_request payload, CreateArticleHeaders headers = {}) returns article|error {
+    resource isolated function post articles(CreateArticleRequest payload, CreateArticleHeaders headers = {}) returns Article|error {
         string resourcePath = string `/articles`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -725,7 +725,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function post companies(create_or_update_company_request payload, CreateOrUpdateCompanyHeaders headers = {}) returns company|error {
+    resource isolated function post companies(CreateOrUpdateCompanyRequest payload, CreateOrUpdateCompanyHeaders headers = {}) returns Company|error {
         string resourcePath = string `/companies`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -739,7 +739,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - Successful 
-    resource isolated function post companies/list(ListAllCompaniesHeaders headers = {}, *ListAllCompaniesQueries queries) returns company_list|error {
+    resource isolated function post companies/list(ListAllCompaniesHeaders headers = {}, *ListAllCompaniesQueries queries) returns CompanyList|error {
         string resourcePath = string `/companies/list`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
@@ -751,7 +751,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post contacts(contacts_body payload, CreateContactHeaders headers = {}) returns contact|error {
+    resource isolated function post contacts(ContactsBody payload, CreateContactHeaders headers = {}) returns Contact|error {
         string resourcePath = string `/contacts`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -765,7 +765,7 @@ public isolated client class Client {
     # + id - The unique identifier of a given contact.
     # + headers - Headers to be sent with the request 
     # + return - Successful response 
-    resource isolated function post contacts/[int id]/notes(id_notes_body payload, CreateNoteHeaders headers = {}) returns note|error {
+    resource isolated function post contacts/[int id]/notes(IdNotesBody payload, CreateNoteHeaders headers = {}) returns Note|error {
         string resourcePath = string `/contacts/${getEncodedUri(id)}/notes`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -776,11 +776,11 @@ public isolated client class Client {
 
     # Add subscription to a contact
     #
-    # + contact_id - The unique identifier for the contact which is given by Intercom
+    # + contactId - The unique identifier for the contact which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function post contacts/[string contact_id]/subscriptions(contact_id_subscriptions_body payload, AttachSubscriptionTypeToContactHeaders headers = {}) returns subscription_type|error {
-        string resourcePath = string `/contacts/${getEncodedUri(contact_id)}/subscriptions`;
+    resource isolated function post contacts/[string contactId]/subscriptions(ContactIdSubscriptionsBody payload, AttachSubscriptionTypeToContactHeaders headers = {}) returns SubscriptionType|error {
+        string resourcePath = string `/contacts/${getEncodedUri(contactId)}/subscriptions`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
         json jsonBody = payload.toJson();
@@ -790,11 +790,11 @@ public isolated client class Client {
 
     # Add tag to a contact
     #
-    # + contact_id - The unique identifier for the contact which is given by Intercom
+    # + contactId - The unique identifier for the contact which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post contacts/[string contact_id]/tags(contact_id_tags_body payload, AttachTagToContactHeaders headers = {}) returns tag|error {
-        string resourcePath = string `/contacts/${getEncodedUri(contact_id)}/tags`;
+    resource isolated function post contacts/[string contactId]/tags(ContactIdTagsBody payload, AttachTagToContactHeaders headers = {}) returns Tag|error {
+        string resourcePath = string `/contacts/${getEncodedUri(contactId)}/tags`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
         json jsonBody = payload.toJson();
@@ -807,7 +807,7 @@ public isolated client class Client {
     # + id - id
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post contacts/[string id]/archive(ArchiveContactHeaders headers = {}) returns contact_archived|error {
+    resource isolated function post contacts/[string id]/archive(ArchiveContactHeaders headers = {}) returns ContactArchived|error {
         string resourcePath = string `/contacts/${getEncodedUri(id)}/archive`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -819,7 +819,7 @@ public isolated client class Client {
     # + id - The unique identifier for the contact which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function post contacts/[string id]/companies(id_companies_body payload, AttachContactToACompanyHeaders headers = {}) returns company|error {
+    resource isolated function post contacts/[string id]/companies(IdCompaniesBody payload, AttachContactToACompanyHeaders headers = {}) returns Company|error {
         string resourcePath = string `/contacts/${getEncodedUri(id)}/companies`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -833,7 +833,7 @@ public isolated client class Client {
     # + id - id
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post contacts/[string id]/unarchive(UnarchiveContactHeaders headers = {}) returns contact_unarchived|error {
+    resource isolated function post contacts/[string id]/unarchive(UnarchiveContactHeaders headers = {}) returns ContactUnarchived|error {
         string resourcePath = string `/contacts/${getEncodedUri(id)}/unarchive`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -844,7 +844,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post contacts/merge(merge_contacts_request payload, MergeContactHeaders headers = {}) returns contact|error {
+    resource isolated function post contacts/merge(MergeContactsRequest payload, MergeContactHeaders headers = {}) returns Contact|error {
         string resourcePath = string `/contacts/merge`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -857,7 +857,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post contacts/search(search_request payload, SearchContactsHeaders headers = {}) returns contact_list|error {
+    resource isolated function post contacts/search(SearchRequest payload, SearchContactsHeaders headers = {}) returns ContactList|error {
         string resourcePath = string `/contacts/search`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -870,7 +870,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - conversation created 
-    resource isolated function post conversations(create_conversation_request payload, CreateConversationHeaders headers = {}) returns message|error {
+    resource isolated function post conversations(CreateConversationRequest payload, CreateConversationHeaders headers = {}) returns Message|error {
         string resourcePath = string `/conversations`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -884,7 +884,7 @@ public isolated client class Client {
     # + id - The id of the conversation to target
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post conversations/[int id]/convert(convert_conversation_to_ticket_request payload, ConvertConversationToTicketHeaders headers = {}) returns ticket|error {
+    resource isolated function post conversations/[int id]/convert(ConvertConversationToTicketRequest payload, ConvertConversationToTicketHeaders headers = {}) returns Ticket|error {
         string resourcePath = string `/conversations/${getEncodedUri(id)}/convert`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -895,11 +895,11 @@ public isolated client class Client {
 
     # Add tag to a conversation
     #
-    # + conversation_id - conversation_id
+    # + conversationId - conversation_id
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post conversations/[string conversation_id]/tags(conversation_id_tags_body payload, AttachTagToConversationHeaders headers = {}) returns tag|error {
-        string resourcePath = string `/conversations/${getEncodedUri(conversation_id)}/tags`;
+    resource isolated function post conversations/[string conversationId]/tags(ConversationIdTagsBody payload, AttachTagToConversationHeaders headers = {}) returns Tag|error {
+        string resourcePath = string `/conversations/${getEncodedUri(conversationId)}/tags`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
         json jsonBody = payload.toJson();
@@ -912,7 +912,7 @@ public isolated client class Client {
     # + id - The identifier for the conversation as given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - Attach a contact to a conversation 
-    resource isolated function post conversations/[string id]/customers(attach_contact_to_conversation_request payload, AttachContactToConversationHeaders headers = {}) returns conversation|error {
+    resource isolated function post conversations/[string id]/customers(AttachContactToConversationRequest payload, AttachContactToConversationHeaders headers = {}) returns Conversation|error {
         string resourcePath = string `/conversations/${getEncodedUri(id)}/customers`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -926,7 +926,7 @@ public isolated client class Client {
     # + id - The identifier for the conversation as given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - Assign a conversation 
-    resource isolated function post conversations/[string id]/parts(id_parts_body payload, ManageConversationHeaders headers = {}) returns conversation|error {
+    resource isolated function post conversations/[string id]/parts(IdPartsBody payload, ManageConversationHeaders headers = {}) returns Conversation|error {
         string resourcePath = string `/conversations/${getEncodedUri(id)}/parts`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -940,7 +940,7 @@ public isolated client class Client {
     # + id - The Intercom provisioned identifier for the conversation or the string "last" to reply to the last part of the conversation
     # + headers - Headers to be sent with the request 
     # + return - User last conversation reply 
-    resource isolated function post conversations/[string id]/reply(reply_conversation_request payload, ReplyConversationHeaders headers = {}) returns conversation|error {
+    resource isolated function post conversations/[string id]/reply(ReplyConversationRequest payload, ReplyConversationHeaders headers = {}) returns Conversation|error {
         string resourcePath = string `/conversations/${getEncodedUri(id)}/reply`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -954,7 +954,7 @@ public isolated client class Client {
     # + id - The identifier for the conversation as given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - Assign a conversation using assignment rules 
-    resource isolated function post conversations/[string id]/run_assignment_rules(AutoAssignConversationHeaders headers = {}) returns conversation|error {
+    resource isolated function post conversations/[string id]/run_assignment_rules(AutoAssignConversationHeaders headers = {}) returns Conversation|error {
         string resourcePath = string `/conversations/${getEncodedUri(id)}/run_assignment_rules`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -965,7 +965,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - Redact a conversation part 
-    resource isolated function post conversations/redact(redact_conversation_request payload, RedactConversationHeaders headers = {}) returns conversation|error {
+    resource isolated function post conversations/redact(RedactConversationRequest payload, RedactConversationHeaders headers = {}) returns Conversation|error {
         string resourcePath = string `/conversations/redact`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -978,7 +978,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post conversations/search(search_request payload, SearchConversationsHeaders headers = {}) returns conversation_list|error {
+    resource isolated function post conversations/search(SearchRequest payload, SearchConversationsHeaders headers = {}) returns ConversationList|error {
         string resourcePath = string `/conversations/search`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -991,7 +991,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function post data_attributes(create_data_attribute_request payload, CreateDataAttributeHeaders headers = {}) returns data_attribute|error {
+    resource isolated function post data_attributes(CreateDataAttributeRequest payload, CreateDataAttributeHeaders headers = {}) returns DataAttribute|error {
         string resourcePath = string `/data_attributes`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1004,7 +1004,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post events(create_data_event_request payload, CreateDataEventHeaders headers = {}) returns http:Response|error {
+    resource isolated function post events(CreateDataEventRequest payload, CreateDataEventHeaders headers = {}) returns http:Response|error {
         string resourcePath = string `/events`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1017,7 +1017,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post events/summaries(create_data_event_summaries_request payload, DataEventSummariesHeaders headers = {}) returns http:Response|error {
+    resource isolated function post events/summaries(CreateDataEventSummariesRequest payload, DataEventSummariesHeaders headers = {}) returns http:Response|error {
         string resourcePath = string `/events/summaries`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1028,11 +1028,11 @@ public isolated client class Client {
 
     # Cancel content data export
     #
-    # + job_identifier - job_identifier
+    # + jobIdentifier - job_identifier
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post export/cancel/[string job_identifier](CancelDataExportHeaders headers = {}) returns data_export|error {
-        string resourcePath = string `/export/cancel/${getEncodedUri(job_identifier)}`;
+    resource isolated function post export/cancel/[string jobIdentifier](CancelDataExportHeaders headers = {}) returns DataExport|error {
+        string resourcePath = string `/export/cancel/${getEncodedUri(jobIdentifier)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
         return self.clientEp->post(resourcePath, request, httpHeaders);
@@ -1042,7 +1042,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post export/content/data(create_data_exports_request payload, CreateDataExportHeaders headers = {}) returns data_export|error {
+    resource isolated function post export/content/data(CreateDataExportsRequest payload, CreateDataExportHeaders headers = {}) returns DataExport|error {
         string resourcePath = string `/export/content/data`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1055,7 +1055,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - collection created 
-    resource isolated function post help_center/collections(create_collection_request payload, CreateCollectionHeaders headers = {}) returns collection|error {
+    resource isolated function post help_center/collections(CreateCollectionRequest payload, CreateCollectionHeaders headers = {}) returns Collection|error {
         string resourcePath = string `/help_center/collections`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1068,7 +1068,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - admin message created 
-    resource isolated function post messages(create_message_request payload, CreateMessageHeaders headers = {}) returns message|error {
+    resource isolated function post messages(CreateMessageRequest payload, CreateMessageHeaders headers = {}) returns Message|error {
         string resourcePath = string `/messages`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1081,7 +1081,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post news/news_items(news_item_request payload, CreateNewsItemHeaders headers = {}) returns news_item|error {
+    resource isolated function post news/news_items(NewsItemRequest payload, CreateNewsItemHeaders headers = {}) returns NewsItem|error {
         string resourcePath = string `/news/news_items`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1094,7 +1094,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post phone_call_redirects(create_phone_switch_request payload, CreatePhoneSwitchHeaders headers = {}) returns phone_switch|error {
+    resource isolated function post phone_call_redirects(CreatePhoneSwitchRequest payload, CreatePhoneSwitchHeaders headers = {}) returns PhoneSwitch|error {
         string resourcePath = string `/phone_call_redirects`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1107,7 +1107,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - Action successful 
-    resource isolated function post tags(tags_body payload, CreateTagHeaders headers = {}) returns tag|error {
+    resource isolated function post tags(TagsBody payload, CreateTagHeaders headers = {}) returns Tag|error {
         string resourcePath = string `/tags`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1120,7 +1120,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - Ticket type created 
-    resource isolated function post ticket_types(create_ticket_type_request payload, CreateTicketTypeHeaders headers = {}) returns ticket_type|error {
+    resource isolated function post ticket_types(CreateTicketTypeRequest payload, CreateTicketTypeHeaders headers = {}) returns TicketType|error {
         string resourcePath = string `/ticket_types`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1131,11 +1131,11 @@ public isolated client class Client {
 
     # Create a new attribute for a ticket type
     #
-    # + ticket_type_id - The unique identifier for the ticket type which is given by Intercom.
+    # + ticketTypeId - The unique identifier for the ticket type which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - Ticket Type Attribute created 
-    resource isolated function post ticket_types/[string ticket_type_id]/attributes(create_ticket_type_attribute_request payload, CreateTicketTypeAttributeHeaders headers = {}) returns ticket_type_attribute|error {
-        string resourcePath = string `/ticket_types/${getEncodedUri(ticket_type_id)}/attributes`;
+    resource isolated function post ticket_types/[string ticketTypeId]/attributes(CreateTicketTypeAttributeRequest payload, CreateTicketTypeAttributeHeaders headers = {}) returns TicketTypeAttribute|error {
+        string resourcePath = string `/ticket_types/${getEncodedUri(ticketTypeId)}/attributes`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
         json jsonBody = payload.toJson();
@@ -1147,7 +1147,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - Successful response 
-    resource isolated function post tickets(create_ticket_request payload, CreateTicketHeaders headers = {}) returns ticket|error {
+    resource isolated function post tickets(CreateTicketRequest payload, CreateTicketHeaders headers = {}) returns Ticket|error {
         string resourcePath = string `/tickets`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1160,7 +1160,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - Admin quick_reply reply 
-    resource isolated function post tickets/[string id]/reply(id_reply_body payload, ReplyTicketHeaders headers = {}) returns ticket_reply|error {
+    resource isolated function post tickets/[string id]/reply(IdReplyBody payload, ReplyTicketHeaders headers = {}) returns TicketReply|error {
         string resourcePath = string `/tickets/${getEncodedUri(id)}/reply`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1171,11 +1171,11 @@ public isolated client class Client {
 
     # Add tag to a ticket
     #
-    # + ticket_id - ticket_id
+    # + ticketId - ticket_id
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post tickets/[string ticket_id]/tags(ticket_id_tags_body payload, AttachTagToTicketHeaders headers = {}) returns tag|error {
-        string resourcePath = string `/tickets/${getEncodedUri(ticket_id)}/tags`;
+    resource isolated function post tickets/[string ticketId]/tags(TicketIdTagsBody payload, AttachTagToTicketHeaders headers = {}) returns Tag|error {
+        string resourcePath = string `/tickets/${getEncodedUri(ticketId)}/tags`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
         json jsonBody = payload.toJson();
@@ -1187,7 +1187,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post tickets/search(search_request payload, SearchTicketsHeaders headers = {}) returns ticket_list|error {
+    resource isolated function post tickets/search(SearchRequest payload, SearchTicketsHeaders headers = {}) returns TicketList|error {
         string resourcePath = string `/tickets/search`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1200,7 +1200,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post visitors/convert(convert_visitor_request payload, ConvertVisitorHeaders headers = {}) returns contact|error {
+    resource isolated function post visitors/convert(ConvertVisitorRequest payload, ConvertVisitorHeaders headers = {}) returns Contact|error {
         string resourcePath = string `/visitors/convert`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1214,7 +1214,7 @@ public isolated client class Client {
     # + id - The unique identifier of a given admin
     # + headers - Headers to be sent with the request 
     # + return - Successful response 
-    resource isolated function put admins/[int id]/away(id_away_body payload, SetAwayAdminHeaders headers = {}) returns admin|error {
+    resource isolated function put admins/[int id]/away(IdAwayBody payload, SetAwayAdminHeaders headers = {}) returns Admin|error {
         string resourcePath = string `/admins/${getEncodedUri(id)}/away`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1228,7 +1228,7 @@ public isolated client class Client {
     # + id - The unique identifier for the article which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function put articles/[int id](update_article_request payload, UpdateArticleHeaders headers = {}) returns article|error {
+    resource isolated function put articles/[int id](UpdateArticleRequest payload, UpdateArticleHeaders headers = {}) returns Article|error {
         string resourcePath = string `/articles/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1242,7 +1242,7 @@ public isolated client class Client {
     # + id - The unique identifier for the company which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function put companies/[string id](UpdateCompanyHeaders headers = {}) returns company|error {
+    resource isolated function put companies/[string id](UpdateCompanyHeaders headers = {}) returns Company|error {
         string resourcePath = string `/companies/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1254,7 +1254,7 @@ public isolated client class Client {
     # + id - id
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function put contacts/[string id](contacts_id_body payload, UpdateContactHeaders headers = {}) returns contact|error {
+    resource isolated function put contacts/[string id](ContactsIdBody payload, UpdateContactHeaders headers = {}) returns Contact|error {
         string resourcePath = string `/contacts/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1269,7 +1269,7 @@ public isolated client class Client {
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - conversation found 
-    resource isolated function put conversations/[int id](update_conversation_request payload, UpdateConversationHeaders headers = {}, *UpdateConversationQueries queries) returns conversation|error {
+    resource isolated function put conversations/[int id](UpdateConversationRequest payload, UpdateConversationHeaders headers = {}, *UpdateConversationQueries queries) returns Conversation|error {
         string resourcePath = string `/conversations/${getEncodedUri(id)}`;
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
@@ -1284,7 +1284,7 @@ public isolated client class Client {
     # + id - The data attribute id
     # + headers - Headers to be sent with the request 
     # + return - Successful 
-    resource isolated function put data_attributes/[int id](update_data_attribute_request payload, UpdateDataAttributeHeaders headers = {}) returns data_attribute|error {
+    resource isolated function put data_attributes/[int id](UpdateDataAttributeRequest payload, UpdateDataAttributeHeaders headers = {}) returns DataAttribute|error {
         string resourcePath = string `/data_attributes/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1298,7 +1298,7 @@ public isolated client class Client {
     # + id - The unique identifier for the collection which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function put help_center/collections/[int id](update_collection_request payload, UpdateCollectionHeaders headers = {}) returns collection|error {
+    resource isolated function put help_center/collections/[int id](UpdateCollectionRequest payload, UpdateCollectionHeaders headers = {}) returns Collection|error {
         string resourcePath = string `/help_center/collections/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1312,7 +1312,7 @@ public isolated client class Client {
     # + id - The unique identifier for the news item which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function put news/news_items/[int id](news_item_request payload, UpdateNewsItemHeaders headers = {}) returns news_item|error {
+    resource isolated function put news/news_items/[int id](NewsItemRequest payload, UpdateNewsItemHeaders headers = {}) returns NewsItem|error {
         string resourcePath = string `/news/news_items/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1326,7 +1326,7 @@ public isolated client class Client {
     # + id - The unique identifier for the ticket type which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - Ticket type updated 
-    resource isolated function put ticket_types/[string id](update_ticket_type_request payload, UpdateTicketTypeHeaders headers = {}) returns ticket_type|error {
+    resource isolated function put ticket_types/[string id](UpdateTicketTypeRequest payload, UpdateTicketTypeHeaders headers = {}) returns TicketType|error {
         string resourcePath = string `/ticket_types/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1337,12 +1337,12 @@ public isolated client class Client {
 
     # Update an existing attribute for a ticket type
     #
-    # + ticket_type_id - The unique identifier for the ticket type which is given by Intercom.
+    # + ticketTypeId - The unique identifier for the ticket type which is given by Intercom.
     # + id - The unique identifier for the ticket type attribute which is given by Intercom.
     # + headers - Headers to be sent with the request 
     # + return - Ticket Type Attribute updated 
-    resource isolated function put ticket_types/[string ticket_type_id]/attributes/[string id](update_ticket_type_attribute_request payload, UpdateTicketTypeAttributeHeaders headers = {}) returns ticket_type_attribute|error {
-        string resourcePath = string `/ticket_types/${getEncodedUri(ticket_type_id)}/attributes/${getEncodedUri(id)}`;
+    resource isolated function put ticket_types/[string ticketTypeId]/attributes/[string id](UpdateTicketTypeAttributeRequest payload, UpdateTicketTypeAttributeHeaders headers = {}) returns TicketTypeAttribute|error {
+        string resourcePath = string `/ticket_types/${getEncodedUri(ticketTypeId)}/attributes/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
         json jsonBody = payload.toJson();
@@ -1355,7 +1355,7 @@ public isolated client class Client {
     # + id - The unique identifier for the ticket which is given by Intercom
     # + headers - Headers to be sent with the request 
     # + return - Successful response 
-    resource isolated function put tickets/[string id](update_ticket_request payload, UpdateTicketHeaders headers = {}) returns ticket|error {
+    resource isolated function put tickets/[string id](UpdateTicketRequest payload, UpdateTicketHeaders headers = {}) returns Ticket|error {
         string resourcePath = string `/tickets/${getEncodedUri(id)}`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
@@ -1368,7 +1368,7 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function put visitors(update_visitor_request payload, UpdateVisitorHeaders headers = {}) returns visitor|error {
+    resource isolated function put visitors(UpdateVisitorRequest payload, UpdateVisitorHeaders headers = {}) returns Visitor|error {
         string resourcePath = string `/visitors`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
