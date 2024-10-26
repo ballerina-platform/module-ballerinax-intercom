@@ -9,8 +9,8 @@ This document records the sanitation done on top of the official OpenAPI specifi
 The OpenAPI specification is obtained from the [Intercom OpenAPI Documentation](https://github.com/intercom/Intercom-OpenAPI).
 These changes are done in order to improve the overall usability, and as workarounds for some known language limitations.
 
-[//]: # (TODO: Add sanitation details)
-1. 
+
+1. Remove error response in /events/summaries
  
 
 ## OpenAPI cli command
