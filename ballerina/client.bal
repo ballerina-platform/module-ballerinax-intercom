@@ -1017,12 +1017,10 @@ public isolated client class Client {
     #
     # + headers - Headers to be sent with the request 
     # + return - successful 
-    resource isolated function post events/summaries(CreateDataEventSummariesRequest payload, DataEventSummariesHeaders headers = {}) returns http:Response|error {
+    resource isolated function post events/summaries(DataEventSummariesHeaders headers = {}) returns error? {
         string resourcePath = string `/events/summaries`;
         map<string|string[]> httpHeaders = getMapForHeaders(headers);
         http:Request request = new;
-        json jsonBody = payload.toJson();
-        request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 

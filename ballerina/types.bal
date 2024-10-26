@@ -513,12 +513,6 @@ public type RetrieveConversationHeaders record {
     IntercomVersion Intercom\-Version?;
 };
 
-public type CreateDataEventSummariesRequest record {
-    # The type of the object
-    "segment.list" 'type?;
-    string[] segments?;
-};
-
 public type CreateArticleRequest record {
     # The type of the object
     "segment.list" 'type?;
