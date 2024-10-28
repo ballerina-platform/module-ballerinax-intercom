@@ -9826,30 +9826,6 @@
         "responses": {
           "200": {
             "description": "successful"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "examples": {
-                  "Unauthorized": {
-                    "value": {
-                      "type": "error.list",
-                      "request_id": "110801d1-2f7b-436f-8f03-2245545a1432",
-                      "errors": [
-                        {
-                          "code": "unauthorized",
-                          "message": "Access Token Invalid"
-                        }
-                      ]
-                    }
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/error"
-                }
-              }
-            }
           }
         },
         "requestBody": {
