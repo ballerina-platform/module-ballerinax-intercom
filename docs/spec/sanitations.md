@@ -10,7 +10,10 @@ The OpenAPI specification is obtained from the [Intercom OpenAPI Documentation](
 These changes are done in order to improve the overall usability, and as workarounds for some known language limitations.
 
 
-1. Remove error response in /events/summaries
+1. Remove error response in, 
+  1.DataEventSummaries
+  2.CreateDataEvent
+  3.DeleteTagHeaders
  
 
 ## OpenAPI cli command
