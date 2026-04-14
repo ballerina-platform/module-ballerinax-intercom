@@ -1,0 +1,102 @@
+import ballerina/io;
+import ballerinax/intercom;
+
+configurable string accessToken = ?;
+configurable string ticketTypeId = ?;
+configurable string adminId = ?;
+
+const AUTOMATION_EMAIL = "automation-test@example.com";
+
+public function main() returns error? {
+    intercom:ConnectionConfig config = {auth: {token: accessToken}};
+    intercom:Client intercomClient = check new (config);
+
+    io:println("=== Support Ticket Automation ===\n");
+
+    // Step 1: Create a contact (or find existing)
+    io:println("Step 1: Creating test contact...");
+    string contactId = "";
+    intercom:ContactWithPush|error contactResult = intercomClient->/contacts.post({
+        email: AUTOMATION_EMAIL,
+        name: "Automation Test User",
+        role: "user"
+    });
+    if contactResult is intercom:ContactWithPush {
+        contactId = (contactResult["id"] is string) ? <string>contactResult["id"] : "";
+        string contactName = (contactResult["name"] is string) ? <string>contactResult["name"] : "";
+        io:println(string `Contact created: "${contactName}" (ID: ${contactId})`);
+    } else {
+        // 409 Conflict — contact already exists; search for it
+        intercom:SingleFilterSearchRequest emailFilter = {'field: "email", operator: "=", value: AUTOMATION_EMAIL};
+        intercom:SearchRequest contactSearch = {query: emailFilter};
+        intercom:ContactList existing = check intercomClient->/contacts/search.post(contactSearch);
+        intercom:Contact[]? existingData = existing.data;
+        if existingData is intercom:Contact[] && existingData.length() > 0 {
+            contactId = existingData[0].id ?: "";
+            io:println(string `Contact already exists (ID: ${contactId})`);
+        } else {
+            return contactResult;
+        }
+    }
+    io:println();
+
+    // Step 2: Create a ticket for the contact
+    io:println("Step 2: Creating a support ticket...");
+    intercom:CreateTicketRequest ticketPayload = {
+        ticketTypeId: ticketTypeId,
+        contacts: [<intercom:ID>{id: contactId}]
+    };
+    intercom:Ticket ticket = check intercomClient->/tickets.post(ticketPayload);
+    string ticketId = (ticket["id"] is string) ? <string>ticket["id"] : "";
+    io:println(string `Ticket created (ID: ${ticketId})`);
+    io:println();
+
+    // Step 3: Retrieve full ticket details
+    io:println("Step 3: Retrieving ticket details...");
+    intercom:Ticket fetched = check intercomClient->/tickets/[ticketId];
+    string fetchedId = (fetched["id"] is string) ? <string>fetched["id"] : "";
+    anydata openRaw = fetched["open"];
+    boolean isOpen = (openRaw is boolean) ? openRaw : false;
+    io:println(string `Ticket ID: ${fetchedId}, open: ${isOpen}`);
+    io:println();
+
+    // Step 4: Search for open tickets
+    io:println("Step 4: Searching for open tickets...");
+    intercom:SingleFilterSearchRequest openFilter = {'field: "open", operator: "=", value: "true"};
+    intercom:SearchRequest searchPayload = {query: openFilter};
+    intercom:TicketList openTickets = check intercomClient->/tickets/search.post(searchPayload);
+    anydata totalRaw = openTickets["totalCount"];
+    int totalOpen = (totalRaw is int) ? totalRaw : 0;
+    io:println(string `Open tickets found: ${totalOpen}`);
+    io:println();
+
+    // Step 5: Send an automated reply
+    io:println("Step 5: Sending automated reply...");
+    intercom:AdminReplyTicketRequest replyPayload = {
+        adminId: adminId,
+        messageType: "comment",
+        'type: "admin",
+        body: "Thank you for contacting support. We have received your ticket and will respond shortly."
+    };
+    intercom:TicketReply reply = check intercomClient->/tickets/[ticketId]/reply.post(replyPayload);
+    string replyType = (reply["type"] is string) ? <string>reply["type"] : "";
+    io:println(string `Automated reply sent (type: ${replyType})`);
+    io:println();
+
+    // Step 6: Close the ticket
+    io:println("Step 6: Closing the ticket...");
+    intercom:Ticket closed = check intercomClient->/tickets/[ticketId].put({open: false});
+    anydata closedRaw = closed["open"];
+    boolean closedOpen = (closedRaw is boolean) ? closedRaw : false;
+    io:println(string `Ticket closed — open: ${closedOpen}`);
+    io:println();
+
+    // Step 7: Clean up — delete the test contact
+    io:println("Step 7: Cleaning up test contact...");
+    intercom:ContactDeleted deleted = check intercomClient->/contacts/[contactId].delete();
+    anydata deletedRaw = deleted["deleted"];
+    boolean isDeleted = (deletedRaw is boolean) ? deletedRaw : false;
+    io:println(string `Contact deleted: ${isDeleted}`);
+
+    io:println("\n=== Support Ticket Automation Complete ===");
+}
