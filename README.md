@@ -11,7 +11,7 @@
 
 [Intercom](https://www.intercom.com/) is a customer service platform that enables businesses to communicate with customers through messaging, support, and engagement tools, helping companies build better customer relationships at scale.
 
-The `ballerinax/intercom` package offers APIs to connect and interact with [Intercom API](https://developers.intercom.com/) endpoints, specifically based on [Intercom API v2.11](https://developers.intercom.com/docs/references/rest-api).
+The `ballerinax/intercom` package offers APIs to connect and interact with [Intercom API](https://developers.intercom.com/) endpoints, specifically based on [Intercom API v2.15](https://developers.intercom.com/docs/references/rest-api).
 ## Setup guide
 
 To use the Intercom connector, you must have access to the Intercom API through an [Intercom developer account](https://developers.intercom.com/) and obtain an API access token. If you do not have an Intercom account, you can sign up for one [here](https://www.intercom.com/help/en/collections/3604584-getting-started).
@@ -74,11 +74,12 @@ Now, utilize the available connector operations.
 ```ballerina
 public function main() returns error? {
     intercom:ContactsBody newContact = {
-        'type: "segment.list",
-        segments: ["new_leads"]
+        email: "test@example.com",
+        name: "Test User",
+        role: "user"
     };
 
-    intercom:Contact response = check intercomClient->/contacts.post(newContact);
+    intercom:ContactWithPush response = check intercomClient->/contacts.post(newContact);
 }
 ```
 

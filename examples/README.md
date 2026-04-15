@@ -14,7 +14,7 @@ The `intercom` connector provides practical examples illustrating usage in vario
 
 1. Generate Intercom credentials to authenticate the connector as described in the [Setup guide](https://central.ballerina.io/ballerinax/intercom/latest#setup-guide).
 
-2. For each example, create a `Config.toml` file the related configuration. Here's an example of how your `Config.toml` file should look:
+2. For each example, create a `Config.toml` file with the required configuration. Here's an example of how your `Config.toml` file should look:
 
     ```toml
     token = "<Access Token>"

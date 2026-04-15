@@ -3,7 +3,7 @@
 ## Prerequisites
 You need an API Access token from intercom developer account.
 
-To do this, refer to [Ballerina intercom Connector](`https://github.com/ballerina-platform/module-ballerinax-intercom/blob/main/ballerina/README.md`).
+To do this, refer to [Ballerina Intercom Connector](https://github.com/ballerina-platform/module-ballerinax-intercom/blob/main/ballerina/README.md).
 
 ## Running Tests
 

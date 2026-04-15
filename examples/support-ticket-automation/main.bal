@@ -26,7 +26,10 @@ public function main() returns error? {
         string contactName = (contactResult["name"] is string) ? <string>contactResult["name"] : "";
         io:println(string `Contact created: "${contactName}" (ID: ${contactId})`);
     } else {
-        // 409 Conflict — contact already exists; search for it
+        // Only fall back to search on 409 Conflict (contact already exists); propagate all other errors
+        if !contactResult.message().includes("409") {
+            return contactResult;
+        }
         intercom:SingleFilterSearchRequest emailFilter = {'field: "email", operator: "=", value: AUTOMATION_EMAIL};
         intercom:SearchRequest contactSearch = {query: emailFilter};
         intercom:ContactList existing = check intercomClient->/contacts/search.post(contactSearch);
@@ -35,7 +38,7 @@ public function main() returns error? {
             contactId = existingData[0].id ?: "";
             io:println(string `Contact already exists (ID: ${contactId})`);
         } else {
-            return contactResult;
+            return error("Could not create or find automation contact");
         }
     }
     io:println();
@@ -91,12 +94,12 @@ public function main() returns error? {
     io:println(string `Ticket closed — open: ${closedOpen}`);
     io:println();
 
-    // Step 7: Clean up — delete the test contact
-    io:println("Step 7: Cleaning up test contact...");
+    // Step 7: Clean up — delete the test ticket and contact
+    io:println("Step 7: Cleaning up test resources...");
+    intercom:TicketDeleted deletedTicket = check intercomClient->/tickets/[ticketId].delete();
+    io:println(string `Ticket deleted: ${deletedTicket.id == ticketId}`);
     intercom:ContactDeleted deleted = check intercomClient->/contacts/[contactId].delete();
-    anydata deletedRaw = deleted["deleted"];
-    boolean isDeleted = (deletedRaw is boolean) ? deletedRaw : false;
-    io:println(string `Contact deleted: ${isDeleted}`);
+    io:println(string `Contact deleted: ${deleted.id == contactId}`);
 
     io:println("\n=== Support Ticket Automation Complete ===");
 }

@@ -2,7 +2,8 @@
 
 [Intercom](https://www.intercom.com/) is a customer service platform that enables businesses to communicate with customers through messaging, support, and engagement tools, helping companies build better customer relationships at scale.
 
-The `ballerinax/intercom` package offers APIs to connect and interact with [Intercom API](https://developers.intercom.com/) endpoints, specifically based on [Intercom API version 2.10](https://developers.intercom.com/intercom-api-reference/reference/rest-api-introduction).
+The `ballerinax/intercom` package offers APIs to connect and interact with [Intercom API](https://developers.intercom.com/) endpoints, specifically based on [Intercom API v2.15](https://developers.intercom.com/intercom-api-reference/reference/rest-api-introduction).
+
 ## Setup guide
 
 To use the Intercom connector, you must have access to the Intercom API through an [Intercom developer account](https://developers.intercom.com/) and obtain an API access token. If you do not have an Intercom account, you can sign up for one [here](https://www.intercom.com/help/en/articles/683-sign-up-for-intercom).

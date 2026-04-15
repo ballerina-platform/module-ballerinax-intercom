@@ -26,7 +26,10 @@ public function main() returns error? {
         string contactName = (contactResult["name"] is string) ? <string>contactResult["name"] : "";
         io:println(string `Contact created: "${contactName}" (ID: ${contactId})`);
     } else {
-        // 409 Conflict — contact already exists; search for it
+        // Only fall back to search on 409 Conflict (contact already exists); propagate all other errors
+        if !contactResult.message().includes("409") {
+            return contactResult;
+        }
         intercom:SingleFilterSearchRequest emailFilter = {'field: "email", operator: "=", value: ESCALATION_EMAIL};
         intercom:SearchRequest contactSearch = {query: emailFilter};
         intercom:ContactList existing = check intercomClient->/contacts/search.post(contactSearch);
@@ -35,7 +38,7 @@ public function main() returns error? {
             contactId = existingData[0].id ?: "";
             io:println(string `Contact already exists (ID: ${contactId})`);
         } else {
-            return contactResult;
+            return error("Could not create or find escalation contact");
         }
     }
     io:println();
@@ -72,12 +75,12 @@ public function main() returns error? {
     io:println(string `Ticket state updated — open: ${isOpen}`);
     io:println();
 
-    // Step 5: Clean up — delete the test contact
-    io:println("Step 5: Cleaning up test contact...");
+    // Step 5: Clean up — delete the test ticket and contact
+    io:println("Step 5: Cleaning up test resources...");
+    intercom:TicketDeleted deletedTicket = check intercomClient->/tickets/[ticketId].delete();
+    io:println(string `Ticket deleted: ${deletedTicket.id == ticketId}`);
     intercom:ContactDeleted deletedContact = check intercomClient->/contacts/[contactId].delete();
-    anydata deletedRaw = deletedContact["deleted"];
-    boolean isDeleted = (deletedRaw is boolean) ? deletedRaw : false;
-    io:println(string `Contact deleted: ${isDeleted}`);
+    io:println(string `Contact deleted: ${deletedContact.id == contactId}`);
 
     io:println("\n=== Priority Ticket Escalation Workflow Complete ===");
 }

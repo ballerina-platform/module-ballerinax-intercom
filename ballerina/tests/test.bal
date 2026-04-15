@@ -196,9 +196,13 @@ function testUpdateArticle() returns error? {
 function testSearchArticles() returns error? {
     // Article search uses query params, not a request body
     ArticleSearchResponse|error response = intercomClient->/articles/search(phrase = "test");
-    // Tolerate binding errors when the live server returns an unexpected shape (e.g. empty data array)
     if response is ArticleSearchResponse {
         test:assertTrue(response is ArticleSearchResponse);
+    } else if !response.message().includes("Payload binding") {
+        // Tolerate only payload binding errors — the live API returns data:[] for empty
+        // results instead of the expected ArticleSearchResponseData object shape.
+        // All other errors (auth, network, etc.) should fail the test.
+        return response;
     }
 }
 
@@ -327,8 +331,29 @@ function testDeleteContact() returns error? {
     // Create a dedicated contact to delete so testGetContact / testUpdateContact are unaffected
     string email = isLiveServer ? "ballerina-delete-test@example.com" : "delete@example.com";
     ContactsBody createPayload = {email: email, name: "Delete Test Contact"};
-    ContactWithPush created = check intercomClient->/contacts.post(createPayload);
-    string createdId = created.id ?: "";
+    ContactWithPush|error created = intercomClient->/contacts.post(createPayload);
+    string createdId;
+    if created is ContactWithPush {
+        createdId = created.id ?: "";
+    } else {
+        // 409 Conflict — contact already exists from a previous run; look it up
+        if !created.message().includes("409") {
+            return created;
+        }
+        SearchRequest contactSearch = {
+            query: <MultipleFilterSearchRequest>{
+                operator: "AND",
+                value: [<SingleFilterSearchRequest>{'field: "email", operator: "=", value: email}]
+            }
+        };
+        ContactList existing = check intercomClient->/contacts/search.post(contactSearch);
+        Contact[]? existingData = existing?.data;
+        if existingData is Contact[] && existingData.length() > 0 {
+            createdId = existingData[0].id ?: "";
+        } else {
+            return error("Could not create or find test contact for delete test");
+        }
+    }
     test:assertTrue(createdId != "");
 
     ContactDeleted deleted = check intercomClient->/contacts/[createdId].delete();
