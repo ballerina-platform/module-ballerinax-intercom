@@ -64,11 +64,11 @@ Now, utilize the available connector operations.
 ```ballerina
 public function main() returns error? {
     intercom:ContactsBody newContact = {
-        'type: "segment.list",
-        segments: ["new_users", "trial_customers"]
+        email: "user@example.com",
+        name: "User Name"
     };
 
-    intercom:Contact response = check intercomClient->/contacts.post(newContact);
+    intercom:ContactWithPush response = check intercomClient->/contacts.post(newContact);
 }
 ```
 

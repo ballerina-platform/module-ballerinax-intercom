@@ -57,6 +57,10 @@ function setupTestResources() returns error? {
     if contactResult is ContactWithPush {
         testContactId = contactResult.id ?: testContactId;
     } else {
+        // Only fall back to search on 409 Conflict; propagate all other errors
+        if !contactResult.message().includes("409") {
+            return contactResult;
+        }
         // 409 Conflict — contact already exists; search for it
         SearchRequest contactSearch = {
             query: <MultipleFilterSearchRequest>{
@@ -68,6 +72,8 @@ function setupTestResources() returns error? {
         Contact[]? existingData = existing?.data;
         if existingData is Contact[] && existingData.length() > 0 {
             testContactId = existingData[0].id ?: testContactId;
+        } else {
+            return error("409 conflict but contact not found in search — setup cannot continue");
         }
     }
 
