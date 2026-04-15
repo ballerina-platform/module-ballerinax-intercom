@@ -110,15 +110,13 @@ function setupTestResources() returns error? {
     }
 
     // 5. Create a test ticket (only when a real ticket type is configured)
-    if ticketTypeId != "type_123" {
-        TicketsBody ticketPayload = {
-            ticketTypeId: ticketTypeId,
-            contacts: [{id: testContactId}]
-        };
-        Ticket|error ticketResult = intercomClient->/tickets.post(ticketPayload);
-        if ticketResult is Ticket {
-            testTicketId = ticketResult.id ?: testTicketId;
-        }
+    TicketsBody ticketPayload = {
+        ticketTypeId: ticketTypeId,
+        contacts: [{id: testContactId}]
+    };
+    Ticket|error ticketResult = intercomClient->/tickets.post(ticketPayload);
+    if ticketResult is Ticket {
+        testTicketId = ticketResult.id ?: testTicketId;
     }
 }
 
