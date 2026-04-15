@@ -6,7 +6,7 @@ The `ballerinax/intercom` package offers APIs to connect and interact with [Inte
 
 ## Setup guide
 
-To use the Intercom connector, you must have access to the Intercom API through an [Intercom developer account](https://developers.intercom.com/) and obtain an API access token. If you do not have an Intercom account, you can sign up for one [here](https://www.intercom.com/help/en/articles/683-sign-up-for-intercom).
+To use the Intercom connector, you must have access to the Intercom API through an [Intercom developer account](https://developers.intercom.com/) and obtain an API access token. If you do not have an Intercom account, you can [sign up for Intercom](https://www.intercom.com/help/en/articles/683-sign-up-for-intercom).
 
 ### Step 1: Create an Intercom Account
 
