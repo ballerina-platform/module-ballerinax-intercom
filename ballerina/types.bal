@@ -60,7 +60,7 @@ public type GetCustomObjectInstancesByExternalIdHeaders record {
 };
 
 # A date and time following the ISO8601 notation
-public type String string;
+public type DateTimeString string;
 
 # Represents the Headers record for the operation: listCallsWithTranscripts
 public type ListCallsWithTranscriptsHeaders record {
@@ -2157,7 +2157,7 @@ public type DeleteCustomObjectInstancesByIdQueries record {
 };
 
 # Flexible datetime format accepting either string or integer values
-public type Datetime String|Integer;
+public type Datetime DateTimeString|Integer;
 
 # Schema for completed custom action results with status and name details
 public type CustomActionFinishedAction record {

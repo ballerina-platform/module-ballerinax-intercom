@@ -22184,7 +22184,7 @@
         },
         "description": "Request body for setting admin away status and reassignment preferences"
       },
-      "String": {
+      "DateTimeString": {
         "title": "string",
         "type": "string",
         "description": "A date and time following the ISO8601 notation",
@@ -30551,7 +30551,7 @@
       "Datetime": {
         "oneOf": [
           {
-            "$ref": "#/components/schemas/String",
+            "$ref": "#/components/schemas/DateTimeString",
             "description": "String representation of datetime value"
           },
           {

@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ### Added
 
-- **Connector package** (`ballerinax/intercom` v0.1.0) — full client for the Intercom REST API v2.15 covering Contacts, Conversations, Tickets, Articles, Tags, Companies, Admins, and Help Center operations.
+- **Connector package** (`ballerinax/intercom` v1.0.0) — full client for the Intercom REST API v2.15 covering Contacts, Conversations, Tickets, Articles, Tags, Companies, Admins, and Help Center operations.
 - **Mock server module** (`intercom.mock.server`) — an in-process HTTP server that mirrors the live API, enabling fully offline unit tests.
 - **Test suite** (`ballerina/tests/test.bal`) — 29 tests covering all major operations; runs against the mock server by default and against the live Intercom API when `isLiveServer = true` is set in `Config.toml`.
 - **Four working examples** demonstrating real-world use cases:
@@ -16,10 +16,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
   - `knowledge-base-management` — create, update, and delete Help Center articles.
   - `priority-ticket-escalation` — create a contact, raise a high-priority ticket, reply, and mark it as escalated.
   - `support-ticket-automation` — create a ticket, retrieve details, search open tickets, reply, and close.
-- **Connector documentation** (`docs/connector/`):
-  - `overview.md` — key features and actions overview.
-  - `setup-guide.md` — step-by-step guide for creating an Intercom app, configuring permissions, obtaining an access token, and finding ticket type IDs.
-  - `action-reference.md` — full operation reference with Ballerina code samples for all supported endpoints.
 - **`Accept: application/json` header** — added as a default header on all 161 operations to satisfy Intercom's strict content-negotiation requirement.
 - **Package keywords** in `Ballerina.toml`: `Area/Communication`, `Vendor/Intercom`, `Type/Connector`.
 
