@@ -1,5 +1,5 @@
 
-# Ballerina intercom connector
+# Ballerina Intercom connector
 
 [![Build](https://github.com/ballerina-platform/module-ballerinax-intercom/actions/workflows/ci.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-intercom/actions/workflows/ci.yml)
 [![Trivy](https://github.com/ballerina-platform/module-ballerinax-intercom/actions/workflows/trivy-scan.yml/badge.svg)](https://github.com/ballerina-platform/module-ballerinax-intercom/actions/workflows/trivy-scan.yml)

@@ -11,4 +11,3 @@ observabilityIncluded = true
 org = "ballerinax"
 name = "intercom"
 version = "0.1.0"
-repository = "local"

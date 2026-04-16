@@ -5,7 +5,7 @@ name = "intercom"
 version = "1.0.0"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
-keywords = [] # TODO: Add keywords
+keywords = ["customer support", "messaging", "conversations", "tickets", "contacts", "Vendor/Intercom", "Area/Communication", "Type/Connector"]
 icon = "icon.png"
 repository = "https://github.com/ballerina-platform/module-ballerinax-intercom"
 

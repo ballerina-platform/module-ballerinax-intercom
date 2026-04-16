@@ -66,7 +66,7 @@ public function main() returns error? {
         contacts: [<intercom:ID>{id: contactId}]
     };
     intercom:Ticket ticket = check intercomClient->/tickets.post(ticketPayload);
-    string ticketId = (ticket["id"] is string) ? <string>ticket["id"] : "";
+    string ticketId = ticket.id is string ? <string>ticket.id : "";
     io:println(string `Ticket created (ID: ${ticketId})`);
     io:println();
 
