@@ -78,11 +78,7 @@ function setupTestResources() returns error? {
     }
 
     // 3. Create a test article
-    int adminIdInt = 0;
-    int|error parsedAdmin = langInt:fromString(testAdminId);
-    if parsedAdmin is int {
-        adminIdInt = parsedAdmin;
-    }
+    int adminIdInt = check langInt:fromString(testAdminId);
     CreateArticleRequest articlePayload = {
         title: "Ballerina Test Article",
         authorId: adminIdInt,
@@ -90,12 +86,10 @@ function setupTestResources() returns error? {
     };
     Article article = check intercomClient->/articles.post(articlePayload);
     string? articleIdStr = article.id;
-    if articleIdStr is string {
-        int|error parsed = langInt:fromString(articleIdStr);
-        if parsed is int {
-            testArticleId = parsed;
-        }
+    if articleIdStr is () {
+        return error("Article creation returned no ID");
     }
+    testArticleId = check langInt:fromString(articleIdStr);
 
     // 4. Create a test conversation using the contact
     CreateConversationRequest convPayload = {
@@ -103,11 +97,11 @@ function setupTestResources() returns error? {
         'from: {'type: "user", id: testContactId}
     };
     ConversationMessage convMsg = check intercomClient->/conversations.post(convPayload);
-    string convIdStr = convMsg.conversationId ?: "456";
-    int|error parsedConv = langInt:fromString(convIdStr);
-    if parsedConv is int {
-        testConversationId = parsedConv;
+    string? convIdStr = convMsg.conversationId;
+    if convIdStr is () {
+        return error("Conversation creation returned no ID");
     }
+    testConversationId = check langInt:fromString(convIdStr);
 
     // 5. Create a test ticket (only when a real ticket type is configured)
     TicketsBody ticketPayload = {
@@ -202,10 +196,11 @@ function testSearchArticles() returns error? {
     ArticleSearchResponse|error response = intercomClient->/articles/search(phrase = "test");
     if response is ArticleSearchResponse {
         test:assertTrue(response is ArticleSearchResponse);
-    } else if !response.message().includes("Payload binding") {
-        // Tolerate only payload binding errors — the live API returns data:[] for empty
-        // results instead of the expected ArticleSearchResponseData object shape.
-        // All other errors (auth, network, etc.) should fail the test.
+    } else if isLiveServer && response.message().includes("Payload binding") {
+        // On the live server the API may return data:[] for empty results, which fails
+        // binding against ArticleSearchResponseData. Tolerate only this case on live.
+        // On the mock server any binding error is a contract regression and must fail.
+    } else {
         return response;
     }
 }
