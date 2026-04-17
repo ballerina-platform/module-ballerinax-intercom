@@ -1,11 +1,11 @@
 [package]
-distribution = "2201.10.0"
+distribution = "2201.13.0"
 org = "ballerinax"
 name = "intercom"
 version = "@toml.version@"
 license = ["Apache-2.0"]
 authors = ["Ballerina"]
-keywords = [] # TODO: Add keywords
+keywords = ["customer support", "messaging", "conversations", "tickets", "contacts", "Vendor/Intercom", "Area/Communication", "Type/Connector"]
 icon = "icon.png"
 repository = "https://github.com/ballerina-platform/module-ballerinax-intercom"
 
